@@ -68,6 +68,7 @@ const ReservedToken = enum ( u8 ) {
     ////////////////////////////////////////////////
     Colon,                          // : 
     Comment,                        // --
+    Comma,                          // Separador
 };
 
 
@@ -127,6 +128,7 @@ fn match_reserved ( lexeme: []const u8 ) ReservedToken {
 fn match_operator ( c1: u8, c2: u8 ) ReservedToken {
     if ( c1 == '-' and c2 == '-' ) return .Comment;
     if ( c1 == ':' ) return .Colon;
+    if ( c1 == ',' ) return .Comma;
     return .Unknown;
 }
 
@@ -220,6 +222,13 @@ fn lexer ( source: []const u8, alloc: std.mem.Allocator ) ![]StringifiedToken {
         // Detectar ":" sozinho
         if ( c == ':' ) {
             try tokens.append( StringifiedToken { .lexeme = ":", .token =  .Colon } );
+            index += 1;
+            continue;
+        }
+
+        // Detectar "," sozinho
+        if ( c == ',' ) {
+            try tokens.append ( StringifiedToken { .lexeme = ",", .token = .Comma } );
             index += 1;
             continue;
         }
@@ -349,20 +358,25 @@ fn token_name ( tok: ReservedToken ) []const u8 {
          // Símbolos
         .Colon          =>      "Colon",
         .Comment        =>      "Comment",
+        .Comma          =>      "Comma",
     };
 }
 
 // TODO teste
 pub fn main ( ) !void {
     const code = 
-    \\package main
+    \\package main                       -- NOTE testando pacotamento
     \\
-    \\module main
+    \\module meu::modulo::aqui           -- NOTE módulo do usuário
     \\
-    \\proc main ( ) is
-    \\      push 1  -- Adiciona 1
-    \\      push 2  -- Adiciona 2
-    \\      add
+    \\proc main is                       -- NOTE função principal do program
+    \\      push 1, 2, 3                 -- NOTE empilhando números
+    \\      push "Hello, ", "World!"     -- NOTE testando StringLiteral
+    \\      call submodule               -- NOTE chamando submodule
+    \\      if 1 then                    -- NOTE testando if e then (condição)
+    \\          push 42                  
+    \\          call someting
+    \\      end                          -- NOTE Fim do bloco 
     \\end
     ;
 
