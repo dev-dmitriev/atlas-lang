@@ -1,3 +1,16 @@
+//! 
+// main.zig
+//
+// Autor: Erison Cleyton ( a.k.a Dmitriev Roman )
+// Data: 16/07/2025
+//
+// Este código é propriedade de Erison Cleyton.
+// Uso, cópia e modificação estão sujeitos à licença GPLv3.
+//
+// Descrição:
+//    Lexer básico em Zig para a linguagem ATLAS.
+//    
+
 const std = @import ( "std" );
 const mem = std.mem;
 
@@ -243,7 +256,7 @@ fn lexer ( source: []const u8, alloc: std.mem.Allocator ) ![]StringifiedToken {
             continue;
         }
 
-        // TODO adicionar string literal futuramente
+        // TODO string literal
         if ( c == '"' ) {
             const start = index;
             index += 1; // Pula "
@@ -291,7 +304,7 @@ fn lexer ( source: []const u8, alloc: std.mem.Allocator ) ![]StringifiedToken {
     return try tokens.toOwnedSlice ( );
 }
 
-// Nome do token para debug
+// TODO debug
 fn token_name ( tok: ReservedToken ) []const u8 {
     return switch ( tok ) {
         .Unknown        =>      "Unknown",
@@ -339,7 +352,7 @@ fn token_name ( tok: ReservedToken ) []const u8 {
     };
 }
 
-// Teste
+// TODO teste
 pub fn main ( ) !void {
     const code = 
     \\package main
