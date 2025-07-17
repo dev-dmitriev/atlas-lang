@@ -1,0 +1,14 @@
+.{
+    .name = .ATLAS,
+    .version = "0.0.0",
+    .fingerprint = 0x855e14bfd9e01ed2,
+    .minimum_zig_version = "0.14.1",
+    .dependencies = .{ },
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "src",
+        "LICENSE",
+        "README.md",
+    },
+}
